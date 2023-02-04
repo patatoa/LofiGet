@@ -15,7 +15,7 @@ def getBucketName() -> str:
 	return os.environ.get('lofigirlframesbucket', 'lofigirlframes')
 
 @app.get("/")
-def main() -> str:
+def main() -> None:
 	from vidget import vidget
 	path = vidget()
 	bucketName = getBucketName()
