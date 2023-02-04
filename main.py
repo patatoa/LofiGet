@@ -1,22 +1,16 @@
-import cv2
-import os
-from vidgear.gears import CamGear
-stream = CamGear(source='https://www.youtube.com/watch?v=jfKfPfyJRdk', stream_mode =True,  time_delay=1, logging=True).start()
+def saveToGCPBucket(path, bucketName) -> None:
+	from google.cloud import storage
+	import os
+	storage_client = storage.Client()
+	bucket = storage_client.get_bucket(bucketName)
+	blob = bucket.blob(os.path.basename(path))
+	blob.upload_from_filename(path)
 
-path = "."
+def main() -> None:
+	import vidget
+	path = vidget.vidget()
+	bucketName = "lofigirlframes"
+	saveToGCPBucket(path, bucketName)
 
-currentframe = 0
-
-frame = stream.read() 
-if frame is None:
-	print("No frame")
-
-cv2.imshow("Output Frame", frame) 
-
-name = path + '/frames' + str(currentframe) + '.jpg'
-print ('Creating...' + name) 
-
-cv2.imwrite(name, frame)
-
-cv2.destroyAllWindows()
-stream.stop()
+if __name__ == "__main__":
+	main()
