@@ -1,22 +1,26 @@
 from flask import Flask
+import os
 
 app = Flask(__name__)
 
-def saveToGCPBucket(path, bucketName) -> None:
+def saveToGCPBucket(path, bucketName) -> str:
 	from google.cloud import storage
-	import os
 	storage_client = storage.Client()
 	bucket = storage_client.get_bucket(bucketName)
 	blob = bucket.blob(os.path.basename(path))
 	blob.upload_from_filename(path)
+	return blob.public_url
+
+def getBucketName() -> str:
+	return os.environ.get('lofigirlframesbucket', 'lofigirlframes')
 
 @app.get("/")
-def main() -> None:
-	import vidget
-	path = vidget.vidget()
-	bucketName = "lofigirlframes"
-	saveToGCPBucket(path, bucketName)
-	return f"Saved {path} to {bucketName}"
+def main() -> str:
+	from vidget import vidget
+	path = vidget()
+	bucketName = getBucketName()
+	finalUrl = saveToGCPBucket(path, bucketName)
+	return finalUrl
 
 if __name__ == "__main__":
     # Development only: run "python main.py" and open http://localhost:8080
