@@ -1,0 +1,3 @@
+opencv-python 
+vidgear
+yt_dlp
