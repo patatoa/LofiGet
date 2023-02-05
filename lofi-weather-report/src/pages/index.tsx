@@ -46,7 +46,9 @@ export default function Home({
               </Row>
             </Card.Header>
             <Card.Body>
-              <Image src={imageUrl} alt="Night" width={500} />
+              <Row justify="center" align="center">
+                <img src={imageUrl} alt="Night" width={500} />
+              </Row>
               <Row justify="center" align="center">
                 Snapshot  taken on {latestSnapshotDate} at {latestSnapshotTime}
               </Row>
