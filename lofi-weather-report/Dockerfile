@@ -28,10 +28,11 @@ COPY --from=0 /app/package*.json ./
 # Install the dependencies for production
 RUN npm ci --only=production
 
-COPY --from=0 /app/.next ./
+COPY --from=0 /app/.next ./.next
+
 
 # Expose the port 8080
 EXPOSE 8080
 
 # Start the app
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
