@@ -1,7 +1,10 @@
 steps:
 - name: "gcr.io/cloud-builders/npm"
   args: ["install"]
+  dir: "lofi-weather-report"
 - name: "gcr.io/cloud-builders/npm"
   args: ["run", "build"]
+  dir: "lofi-weather-report"
 - name: "gcr.io/cloud-builders/gsutil"
   args: ["-m", "rsync", "-d", "-r", "out", "gs://staticui"]
+  dir: "lofi-weather-report"
