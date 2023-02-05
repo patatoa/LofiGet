@@ -64,9 +64,10 @@ export default function Home({
 export async function getServerSideProps() {
   const bucketName = process.env.NEXT_PUBLIC_BUCKET_NAME || "";
   const latestSnapshot = await getLatestFile(bucketName)
-  const publicUrl = latestSnapshot.publicUrl();
-  const date = publicUrl.split("frame")[1].split("(")[0];
-  const time = publicUrl.split("(")[1].split(")")[0];
+  const publicUrl = latestSnapshot.publicUrl(); //https://storage.googleapis.com/lofigirlframes/frame04-Feb-2023%20(04%3A26%3A38.662277).jpg
+  const urlDecoded = decodeURIComponent(publicUrl);
+  const date = urlDecoded.split("frames/frame")[1].split(" ")[0];
+  const time = urlDecoded.split("frames/frame")[1].split(" ")[1].split(")")[0];
   return {
     props: {
       sky: "night",
