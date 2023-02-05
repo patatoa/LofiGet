@@ -34,4 +34,4 @@ COPY --from=0 /app/.next ./
 EXPOSE 8080
 
 # Start the app
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
