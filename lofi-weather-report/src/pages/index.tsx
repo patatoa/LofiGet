@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Container, Card, Row, Text, Image } from "@nextui-org/react";
 import { Inter } from "@next/font/google";
+import { getLatestFile } from "@/services/storageDataAccess";
 
 interface LofiProps {
   sky: "day" | "night";
@@ -60,14 +61,18 @@ export default function Home({
   );
 }
 
-export function getServerSideProps() {
+export async function getServerSideProps() {
+  const bucketName = process.env.NEXT_PUBLIC_BUCKET_NAME || "";
+  const latestSnapshot = await getLatestFile(bucketName)
+  const publicUrl = latestSnapshot.publicUrl();
+  const date = publicUrl.split("frame")[1].split("(")[0];
+  const time = publicUrl.split("(")[1].split(")")[0];
   return {
     props: {
       sky: "night",
-      imageUrl:
-        "https://storage.googleapis.com/lofigirlframes/frame05-Feb-2023%20(02%3A00%3A08.509107).jpg",
-      latestSnapshotDate: "02/05/2023",
-      latestSnapshotTime: "20:00:08",
+      imageUrl: latestSnapshot.publicUrl,
+      latestSnapshotDate: date,
+      latestSnapshotTime: time,
     },
   };
 }
