@@ -47,7 +47,7 @@ export default function Home({
             </Card.Header>
             <Card.Body>
               <Row justify="center" align="center">
-                <img src={imageUrl} alt="Night" width={500} />
+              <Image src={imageUrl} alt="Night" width={500} />
               </Row>
               <Row justify="center" align="center">
                 Snapshot  taken on {latestSnapshotDate} at {latestSnapshotTime}
@@ -60,7 +60,7 @@ export default function Home({
   );
 }
 
-export function getStaticProps() {
+export function getServerSideProps() {
   return {
     props: {
       sky: "night",

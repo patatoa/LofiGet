@@ -8,7 +8,7 @@ const nextConfig = {
         hostname: 'storage.googleapis.com'
       }
     ]
-  }
+  },
 }
 
 module.exports = nextConfig
