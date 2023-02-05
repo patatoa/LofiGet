@@ -1,10 +1,20 @@
-import Head from 'next/head'
-import { Container, Card, Row, Text } from "@nextui-org/react";
-import { Inter } from '@next/font/google'
+import Head from "next/head";
+import { Container, Card, Row, Text, Image } from "@nextui-org/react";
+import { Inter } from "@next/font/google";
 
-const inter = Inter({ subsets: ['latin'] })
+interface LofiProps {
+  sky: "day" | "night";
+  imageUrl: string;
+  latestSnapshotDate: string;
+  latestSnapshotTime: string;
+}
 
-export default function Home() {
+export default function Home({
+  sky,
+  imageUrl,
+  latestSnapshotDate,
+  latestSnapshotTime,
+}: LofiProps) {
   return (
     <>
       <Head>
@@ -14,24 +24,48 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-      <Card>
-        <Card.Header>
-              LoFi Weather Report
-        </Card.Header>
-        <Card.Body>
-          <Row justify="center" align="center">
-            <Text h1 size={15} color="white" css={{ m: 0 }}>
-              It is currently <em>night</em>.
-            </Text>
-            <Text h6 size={15} color="white" css={{ m: 0 }}>
-              NextUI gives you the best developer experience with all the features
-              you need for building beautiful and modern websites and
-              applications.
-            </Text>
-          </Row>
-        </Card.Body>
-      </Card>
-    </Container>
+        <Row justify="center" align="center">
+          <Card css={{ mw: "50%" }}>
+            <Card.Header>
+              <Row justify="center" align="center">
+                <Text h1>LoFi Weather Report</Text>
+              </Row>
+            </Card.Header>
+            <Card.Body>
+              <Text size={15} css={{ m: 0 }}>
+                It is currently <em>{sky}</em>.
+              </Text>
+            </Card.Body>
+          </Card>
+        </Row>
+        <Row justify="center" align="center">
+          <Card css={{ mw: "50%" }}>
+            <Card.Header>
+              <Row justify="center" align="center">
+                <Text h2>Most recent snapshot</Text>
+              </Row>
+            </Card.Header>
+            <Card.Body>
+              <Image src={imageUrl} alt="Night" width={500} />
+              <Row justify="center" align="center">
+                Snapshot  taken on {latestSnapshotDate} at {latestSnapshotTime}
+              </Row>
+            </Card.Body>
+          </Card>
+        </Row>
+      </Container>
     </>
-  )
+  );
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      sky: "night",
+      imageUrl:
+        "https://storage.googleapis.com/lofigirlframes/frame05-Feb-2023%20(02%3A00%3A08.509107).jpg",
+      latestSnapshotDate: "02/05/2023",
+      latestSnapshotTime: "20:00:08",
+    },
+  };
 }
