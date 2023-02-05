@@ -7,7 +7,9 @@ async function getLatestFile(bucketName: string): Promise<File> {
   const [files] = await bucket.getFiles();
 
   // Sort the files by creation time, so the latest file is first
-  files.sort((a:any, b:any) => b.metadata.timeCreated - a.metadata.timeCreated);
+  files.sort((a:File, b:File) => 
+    a.metadata.timeCreated < b.metadata.timeCreated ? 1 : -1);
+ 
 
   return files[0];
 }

@@ -67,13 +67,14 @@ export async function getServerSideProps() {
   const publicUrl = latestSnapshot.publicUrl(); //https://storage.googleapis.com/lofigirlframes/frame04-Feb-2023%20(04%3A26%3A38.662277).jpg
   const urlDecoded = decodeURIComponent(publicUrl);
   const date = urlDecoded.split("frames/frame")[1].split(" ")[0];
-  const time = urlDecoded.split("frames/frame")[1].split(" ")[1].split(")")[0];
+  const time = urlDecoded.split("(")[1].split(".")[0];
+  const timeWithAmPm = (parseInt(time.split(":")[0])) < 12 ? `${time}am` : `${time}pm`;
   return {
     props: {
       sky: "night",
       imageUrl: publicUrl,
       latestSnapshotDate: date,
-      latestSnapshotTime: time,
+      latestSnapshotTime: timeWithAmPm,
     },
   };
 }
