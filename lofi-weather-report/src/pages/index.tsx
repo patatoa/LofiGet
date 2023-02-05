@@ -70,7 +70,7 @@ export async function getServerSideProps() {
   return {
     props: {
       sky: "night",
-      imageUrl: latestSnapshot.publicUrl,
+      imageUrl: publicUrl,
       latestSnapshotDate: date,
       latestSnapshotTime: time,
     },
