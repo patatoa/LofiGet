@@ -5,7 +5,7 @@ import os
 import logging, sys
 from skyCheck import getSkyData
 
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 app = Flask(__name__)
 
 
@@ -35,8 +35,8 @@ def main() -> None:
 	currentSkyData = {'datetime': currentDateTime, 'url': finalUrl,
 						'sky': skyData.sky, 'brightnessDelta': skyData.brightnessDelta}
 	
-	logging.debug(currentSkyData)
-	logging.debug(" to " + os.environ['framesCollection'])
+	logging.info(currentSkyData)
+	logging.info(" to " + os.environ['framesCollection'])
 	saveToFirestore(currentSkyData)
 	checkForSkyChange(currentSkyData)
 	return currentSkyData
