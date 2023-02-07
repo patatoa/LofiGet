@@ -16,7 +16,7 @@ export default function Home({
   imageUrl,
   latestSnapshotDate,
   latestSnapshotTime,
-  skyDuration
+  skyDuration,
 }: LofiProps) {
   return (
     <>
@@ -26,20 +26,25 @@ export default function Home({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid.Container gap={2} justify="center">
-        <Grid xs={11} lg={4}>
-          <Container lg>
-            <Row justify="center" align="center">
-              <Card>
-                <Card.Header>
-                  <Row justify="center" align="center">
-                    <Text h1>LoFi Weather Report</Text>
-                  </Row>
-                </Card.Header>
-                <Card.Body>
-                  <Row justify="flex-start" align="center">
+      <Container md>
+        <Row justify="center" align="center">
+          <Card>
+            <Card.Header>
+              <Row justify="center" align="center">
+                <Text h1>LoFi Weather Report</Text>
+              </Row>
+            </Card.Header>
+            <Card.Body>
+              <Grid.Container gap={2} justify="center">
+                <Grid xs={12} sm={4} direction="column">
+                  <Row
+                    justify="flex-start"
+                    align="center"
+                    css={{ marginLeft: "$lg: 3rem" }}
+                  >
                     <Text size={15}>
-                      It is currently <em>{sky}</em>. It has been {sky} for {skyDuration}.
+                      It is currently <em>{sky}</em>. It has been {sky} for{" "}
+                      {skyDuration}.
                     </Text>
                   </Row>
                   <Row justify="center" align="center">
@@ -52,13 +57,12 @@ export default function Home({
                     Snapshot taken on {latestSnapshotDate} at{" "}
                     {latestSnapshotTime}
                   </Row>
-                </Card.Body>
-              </Card>
-            </Row>
-            <Row justify="center" align="center"></Row>
-          </Container>
-        </Grid>
-      </Grid.Container>
+                </Grid>
+              </Grid.Container>
+            </Card.Body>
+          </Card>
+        </Row>
+      </Container>
     </>
   );
 }
@@ -79,14 +83,14 @@ export async function getServerSideProps() {
     (datetime.getTime() - earliestTime.getTime()) /
     (1000 * 60 * 60)
   ).toFixed(2);
-  console.log({ date, timeWithAmPm});
+  console.log({ date, timeWithAmPm });
   return {
     props: {
       sky: "day",
       imageUrl: publicUrl,
       latestSnapshotDate: date,
       latestSnapshotTime: timeWithAmPm,
-      skyDuration:`${timeDiffInHours} hours`,
+      skyDuration: `${timeDiffInHours} hours`,
     },
   };
 }
