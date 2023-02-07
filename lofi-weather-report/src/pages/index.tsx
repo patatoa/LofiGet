@@ -27,8 +27,7 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Grid.Container gap={2} justify="center">
-        <Grid lg={3}></Grid>
-        <Grid lg={3}>
+        <Grid xs={11} lg={4}>
           <Container lg>
             <Row justify="center" align="center">
               <Card>
@@ -59,7 +58,6 @@ export default function Home({
             <Row justify="center" align="center"></Row>
           </Container>
         </Grid>
-        <Grid lg={3}></Grid>
       </Grid.Container>
     </>
   );
@@ -75,19 +73,20 @@ export async function getServerSideProps() {
   const timeWithAmPm =
     parseInt(time.split(":")[0]) < 12 ? `${time} am` : `${time} pm`;
   // make actual datetime object
-  const datetime = new Date(`${date} ${timeWithAmPm}`);
-  const earliestTime = new Date(`04-Feb-2023 6:00 am`);
+  const datetime = new Date(`${date} ${time}`);
+  const earliestTime = new Date(`07-Feb-2023 4:00 am`);
   const timeDiffInHours = (
     (datetime.getTime() - earliestTime.getTime()) /
     (1000 * 60 * 60)
   ).toFixed(2);
+  console.log({ date, timeWithAmPm});
   return {
     props: {
-      sky: "night",
+      sky: "day",
       imageUrl: publicUrl,
       latestSnapshotDate: date,
       latestSnapshotTime: timeWithAmPm,
-      skyDuration:`at least ${timeDiffInHours} hours`,
+      skyDuration:`${timeDiffInHours} hours`,
     },
   };
 }
