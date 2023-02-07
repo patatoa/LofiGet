@@ -2,9 +2,10 @@ from datetime import datetime
 from firestoreDataAccess import saveToFirestore, checkForSkyChange, FirestoreCollections, FirestoreCollectionNames
 from flask import Flask
 import os
-
+import logging, sys
 from skyCheck import getSkyData
 
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 app = Flask(__name__)
 
 
@@ -33,8 +34,9 @@ def main() -> None:
 		os.environ['framesCollection'], os.environ['currentSkyCollection'], os.environ['skyDurationsCollection']))
 	currentSkyData = {'datetime': currentDateTime, 'url': finalUrl,
 						'sky': skyData.sky, 'brightnessDelta': skyData.brightnessDelta}
-	print(currentSkyData)
-	print(" to " + os.environ['framesCollection'])
+	
+	logging.debug(currentSkyData)
+	logging.debug(" to " + os.environ['framesCollection'])
 	saveToFirestore(currentSkyData)
 	checkForSkyChange(currentSkyData)
 	return currentSkyData
