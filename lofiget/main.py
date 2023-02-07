@@ -4,6 +4,16 @@ from flask import Flask
 import os
 import logging, sys
 from skyCheck import getSkyData
+import google.cloud.logging
+
+# Instantiates a client
+client = google.cloud.logging.Client()
+
+# Retrieves a Cloud Logging handler based on the environment
+# you're running in and integrates the handler with the
+# Python logging module. By default this captures all logs
+# at INFO level and higher
+client.setup_logging()
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 app = Flask(__name__)
