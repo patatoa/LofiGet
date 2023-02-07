@@ -35,6 +35,7 @@ class FirestoreCollections:
 def saveToFirestore(data: dict) -> None:
 	db = firestore.Client()
 	db.collection(FirestoreCollections.getInstance().frames).add(data)
+	print("Saved to firestore")
 
 def checkForSkyChange(currentSnapshot: dict) -> bool:
 	def getCurrentSkyQuery() -> firestore.Query:

@@ -46,7 +46,9 @@ def main() -> None:
 						'sky': skyData.sky, 'brightnessDelta': skyData.brightnessDelta}
 	
 	logging.info(currentSkyData)
+	print(currentSkyData)
 	logging.info(" to " + os.environ['framesCollection'])
+	print(" to " + os.environ['framesCollection'])
 	saveToFirestore(currentSkyData)
 	checkForSkyChange(currentSkyData)
 	return currentSkyData
