@@ -7,7 +7,6 @@ SkyData = namedtuple('SkyData', ['sky', 'brightnessDelta'])
 
 
 def getSkyData(img) -> SkyData:
-
 	def mean_brightness(img):
 		return np.mean(img)
 
