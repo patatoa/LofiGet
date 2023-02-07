@@ -3,7 +3,7 @@ import cv2
 import os
 from vidgear.gears import CamGear
 
-def vidget() -> str:
+def vidget():
 	ytUrl = os.environ['ytUrl']
 	stream = CamGear(source=ytUrl, stream_mode =True,  time_delay=1, logging=True).start()
 
@@ -20,4 +20,4 @@ def vidget() -> str:
 	cv2.imwrite(name, frame)
 
 	stream.stop()
-	return name
+	return name, frame
