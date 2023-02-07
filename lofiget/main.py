@@ -23,19 +23,21 @@ def getBucketName() -> str:
 
 @app.get("/")
 def main() -> None:
-    from vidget import vidget
-    currentDateTime = datetime.now()
-    path = vidget()
-    bucketName = getBucketName()
-    finalUrl = saveToGCPBucket(path, bucketName)
-    skyData = getSkyData(path)
-    FirestoreCollections.setInstance(FirestoreCollectionNames(
-        os.environ['framesCollection'], os.environ['currentSkyCollection'], os.environ['skyDurationsCollection']))
-    currentSkyData = {'datetime': currentDateTime, 'url': finalUrl,
-                      'sky': skyData.sky, 'brightnessDelta': skyData.brightnessDelta}
-    saveToFirestore(currentSkyData)
-    checkForSkyChange(currentSkyData)
-    return currentSkyData
+	from vidget import vidget
+	currentDateTime = datetime.now()
+	path = vidget()
+	bucketName = getBucketName()
+	finalUrl = saveToGCPBucket(path, bucketName)
+	skyData = getSkyData(path)
+	FirestoreCollections.setInstance(FirestoreCollectionNames(
+		os.environ['framesCollection'], os.environ['currentSkyCollection'], os.environ['skyDurationsCollection']))
+	currentSkyData = {'datetime': currentDateTime, 'url': finalUrl,
+						'sky': skyData.sky, 'brightnessDelta': skyData.brightnessDelta}
+	print(currentSkyData)
+	print(" to " + os.environ['framesCollection'])
+	saveToFirestore(currentSkyData)
+	checkForSkyChange(currentSkyData)
+	return currentSkyData
 
 
 if __name__ == "__main__":
