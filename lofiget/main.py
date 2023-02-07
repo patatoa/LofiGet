@@ -39,7 +39,7 @@ def main() -> None:
 	path = vidget()
 	bucketName = getBucketName()
 	finalUrl = saveToGCPBucket(path, bucketName)
-	skyData = getSkyData(path)
+	skyData = getSkyData(finalUrl)
 	FirestoreCollections.setInstance(FirestoreCollectionNames(
 		os.environ['framesCollection'], os.environ['currentSkyCollection'], os.environ['skyDurationsCollection']))
 	currentSkyData = {'datetime': currentDateTime, 'url': finalUrl,
