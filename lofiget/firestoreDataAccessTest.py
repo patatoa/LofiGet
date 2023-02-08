@@ -6,7 +6,7 @@ def main():
     FirestoreCollections.setInstance(FirestoreCollectionNames(
         'frames-staging', 'currentSky-staging', 'skyDurations-staging'))
     currentSkyData = {'datetime': datetime.datetime.now(), 'url': "https://www.google.com",
-                      'sky': 'day', 'brightnessDelta': 50}
+                      'sky': 'night', 'brightnessDelta': 50}
     saveToFirestore(currentSkyData)
     checkForSkyChange(currentSkyData)
 

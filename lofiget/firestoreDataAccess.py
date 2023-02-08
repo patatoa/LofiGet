@@ -52,21 +52,22 @@ def checkForSkyChange(currentSnapshot: dict) -> bool:
                       'isApproximateStart': False
 		})
 
-	def updateSkyDurations(data: dict, currentTime: datetime) -> None:
+	def updateSkyDurations(data: dict )-> None:
 		recentSkyDuration = db.collection(FirestoreCollections.getInstance().skyDurations).where('timeEnd', '==', '').get()
 		print(recentSkyDuration.__len__())
 		for key in recentSkyDuration:
-			key.reference.update({'timeEnd': currentTime})
-		db.collection(FirestoreCollections.getInstance().skyDurations).add({'timeStart': currentTime, 'sky': data['sky'], 'timeEnd': ""})
+			key.reference.update({'timeEnd': data['datetime']})
+		db.collection(FirestoreCollections.getInstance().skyDurations).add({'timeStart': data['datetime'], 'sky': data['sky'], 'timeEnd': ""})
 
 	db = firestore.Client()
 	currentSkyData = getCurrentSkyData()
 	print(currentSkyData['sky'])
+
 	if currentSkyData['sky'] == currentSnapshot['sky']:
 		return False
 	else:
 		updateCurrentSkyData(currentSnapshot)
 		print("Sky changed to " + currentSnapshot['sky'])
-		updateSkyDurations(currentSnapshot, datetime.now())
+		updateSkyDurations(currentSnapshot)
 		print("Sky duration updated")
 		return True
