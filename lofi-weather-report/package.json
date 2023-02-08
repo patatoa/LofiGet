@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^6.4.2",
     "@google-cloud/storage": "^6.9.1",
     "@next/font": "13.1.6",
     "@nextui-org/react": "^1.0.0-beta.12",
