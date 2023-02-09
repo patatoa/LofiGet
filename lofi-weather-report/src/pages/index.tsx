@@ -7,7 +7,7 @@ import {
 } from "@/services/storageDataAccess";
 import { SkyDuration } from "@/types/skyDuration";
 import { BsSunFill, BsMoon } from "react-icons/bs";
-import ExplainerCard from "@/components/explainerCard";
+import ExplainerCard from "@/components/ExplainerCard";
 import getCreditYearRange from "@/services/getCreditsYearRange";
 import CreditsCard from "@/components/CreditsCard";
 
