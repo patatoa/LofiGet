@@ -3,12 +3,13 @@ import { Container, Card, Row, Text, Image, Grid } from "@nextui-org/react";
 import { Gorditas, Inter } from "@next/font/google";
 import {
   getDurations,
-  getLatestDuration,
-  getLatestFile,
   getLatestSnapshot,
 } from "@/services/storageDataAccess";
 import { SkyDuration } from "@/types/skyDuration";
 import { BsSunFill, BsMoon } from "react-icons/bs";
+import ExplainerCard from "@/components/explainerCard";
+import getCreditYearRange from "@/services/getCreditsYearRange";
+import CreditsCard from "@/components/CreditsCard";
 
 interface LofiProps {
   sky: "day" | "night";
@@ -16,6 +17,7 @@ interface LofiProps {
   latestSnapshotDate: string;
   skyDuration: string;
   skyDurations: SkyDuration[];
+  yearRange: string;
 }
 
 export default function Home({
@@ -24,7 +26,9 @@ export default function Home({
   latestSnapshotDate,
   skyDuration,
   skyDurations,
+  yearRange
 }: LofiProps) {
+  const cardStyle = {mb: "2rem", pb: "1rem"}
   return (
     <>
       <Head>
@@ -34,10 +38,11 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container gap={2}>
-        <Card>
+        <Card css={cardStyle}>
           <Card.Header>
             <Row justify="center" align="center">
               <Text h1>LoFi Weather Report</Text>
+              <Text small>Tracking the skys on LoFi land since Feb. 3 2023.</Text>
             </Row>
           </Card.Header>
           <Card.Body>
@@ -62,7 +67,7 @@ export default function Home({
             </Grid.Container>
           </Card.Body>
         </Card>
-        <Card>
+        <Card css={cardStyle}>
           <Card.Header>
             <Row justify="center" align="center">
               <Text h2>History</Text>
@@ -72,7 +77,7 @@ export default function Home({
             <Grid.Container justify="center">
               <Grid xs={12} sm={6} direction="column">
                 {skyDurations.map((duration) => (
-                  <Grid.Container justify="center" key={duration.timeStart}>
+                  <Grid.Container justify="center" key={duration.timeStart+duration.sky}>
                     <Grid xs={1}>
                       {duration.sky === "day" ? (
                         <BsSunFill size={30} />
@@ -98,6 +103,8 @@ export default function Home({
             </Grid.Container>
           </Card.Body>
         </Card>
+        <ExplainerCard css={cardStyle} />
+        <CreditsCard css={cardStyle} yearRange={yearRange} />
       </Container>
     </>
   );
@@ -118,6 +125,7 @@ export async function getServerSideProps() {
   const latestDuration = skyDurations[0];
   const timeDiffStr = (latestDuration.months ? `${latestDuration.months} months ` : "") + 
     `${latestDuration.days} days ${latestDuration.hours} hours ${latestDuration.minutes} minutes ${latestDuration.seconds} seconds`;
+  const yearRange = getCreditYearRange();
   return {
     props: {
       sky: currentSky,
@@ -125,6 +133,7 @@ export async function getServerSideProps() {
       latestSnapshotDate: currentDateTimeFormatted,
       skyDuration: timeDiffStr,
       skyDurations,
+      yearRange
     },
   };
 }
