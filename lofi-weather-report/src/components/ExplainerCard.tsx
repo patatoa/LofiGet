@@ -14,7 +14,7 @@ const ExplainerCard = ({css}: ExplainerCardProps) => {
 			</Card.Header>
 			<Card.Body >
 				<Text>
-					<em>LoFi Weather Report</em> is a free service to report on the sky conditions in LoFi Land. This is accomplished by periodically taking a snapshot of the <em>&quot;lofi hip hop radio - beats to relax/study to&quot; YouTube stream and analyzing the image. The goal of this service to answer the timeless question, how long are the days in LoFi Land?</em> 
+					<em>LoFi Weather Report</em> is a free service to report on the sky conditions in LoFi Land. This is accomplished by periodically taking a snapshot of the <em>&quot;lofi hip hop radio - beats to relax/study to&quot;</em> YouTube stream and analyzing the image. The goal of this service to answer the timeless question, how long are the days in LoFi Land?
 				</Text>	
 			</Card.Body>
 		</Card>
