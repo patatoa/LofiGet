@@ -15,8 +15,8 @@ enum Sky {
 
 const castToSkyDuration = (data: FirebaseFirestore.DocumentData): SkyDuration => {
 	const { timeStart, timeEnd, sky } = data;
-	const timeEndForCalc = timeEnd ? new Date(timeEnd) : new Date();
-	const timeDiff = Math.abs(timeEndForCalc.getTime() - timeStart.toDate().getTime());
+	const timeEndAsDate = cleanDateFromFirestore(timeEnd);
+	const timeDiff = Math.abs(timeEndAsDate.getTime() - timeStart.toDate().getTime());
 	const months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
 	const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 	const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -31,8 +31,13 @@ const castToSkyDuration = (data: FirebaseFirestore.DocumentData): SkyDuration =>
 		seconds,
 		sky,
 		timeStart: timeStart.toDate().toLocaleDateString(),
-		timeEnd: timeEnd ? new Date(timeEnd).toLocaleDateString() : null
+		timeEnd: timeEndAsDate ? timeEndAsDate.toLocaleDateString() : null
 	};
 }
+
+const cleanDateFromFirestore = (date: any): Date => date 
+  ? (typeof date === "string" ? new Date(date) : date.toDate()) 
+  : new Date();
+
 export { Sky, castToSkyDuration };
 export type { SkyDuration };
