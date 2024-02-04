@@ -1,5 +1,5 @@
 from collections import namedtuple
-from datetime import datetime
+from attr import dataclass
 from google.cloud import firestore
 
 FirestoreCollectionNames = namedtuple('FirestoreCollectionNames', ['frames', 'currentSky', 'skyDurations'])
@@ -31,6 +31,19 @@ class FirestoreCollections:
                 self.frames = collectionNames.frames
                 self.currentSky = collectionNames.currentSky
                 self.skyDurations = collectionNames.skyDurations
+
+@dataclass
+class SkyDurationAggregation:
+	dayTotalDuration: float
+	dayTotalCount: int
+	dayAverageDuration: float
+	dayMaxDuration: float
+	dayMinDuration: float
+	nightTotalDuration: float
+	nightTotalCount: int
+	nightAverageDuration: float
+	nightMaxDuration: float
+	nightMinDuration: float
 
 def saveToFirestore(data: dict) -> None:
 	db = firestore.Client()
@@ -71,3 +84,27 @@ def checkForSkyChange(currentSnapshot: dict) -> bool:
 		updateSkyDurations(currentSnapshot)
 		print("Sky duration updated")
 		return True
+
+def getAllSkyDurations() -> list:
+	db = firestore.Client()
+	skyDurations = db.collection(FirestoreCollections.getInstance().skyDurations).get()
+	return [sky.to_dict() for sky in skyDurations]
+def calculateDurationData(skyDurations, skyType):
+    totalDuration, totalCount, minDuration, maxDuration = 0, 0, float('inf'), 0
+    for skyDuration in skyDurations:
+        if skyDuration['sky'] == skyType:
+            timeEnd = skyDuration['timeEnd']
+            if timeEnd == "":
+                timeEnd = datetime.now(timezone.utc)
+            duration = (timeEnd - skyDuration['timeStart']).total_seconds()
+            totalDuration += duration
+            totalCount += 1
+            minDuration = min(minDuration, duration)
+            maxDuration = max(maxDuration, duration)
+    return totalDuration, totalCount, minDuration if totalCount > 0 else 0, maxDuration
+
+def aggregateSkyDurations() -> SkyDurationAggregation:
+    skyDurations = getAllSkyDurations()
+    dayTotalDuration, dayTotalCount, dayMinDuration, dayMaxDuration = calculateDurationData(skyDurations, 'day')
+    nightTotalDuration, nightTotalCount, nightMinDuration, nightMaxDuration = calculateDurationData(skyDurations, 'night')
+    return SkyDurationAggregation(dayTotalDuration, dayTotalCount, dayTotalDuration/dayTotalCount if dayTotalCount > 0 else 0, dayMaxDuration, dayMinDuration, nightTotalDuration, nightTotalCount, nightTotalDuration/nightTotalCount if nightTotalCount > 0 else 0, nightMaxDuration, nightMinDuration)
