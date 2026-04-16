@@ -1,5 +1,5 @@
 # start with a Python 3.9 base image
-FROM python:3.9 AS base
+FROM python:3.11 AS base
 
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 libglib2.0-0 libxrender-dev -y
 
