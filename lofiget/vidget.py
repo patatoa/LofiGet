@@ -15,7 +15,7 @@ def vidget():
 		'cookiefile': cookies_tmp,
 		'format': 'best[ext=mp4]/best',
 		'quiet': True,
-		'extractor_args': {'youtube': {'player_client': ['ios']}},
+		'extractor_args': {'youtube': {'player_client': ['web']}},
 	}
 	with yt_dlp.YoutubeDL(ydl_opts) as ydl:
 		info = ydl.extract_info(ytUrl, download=False)
