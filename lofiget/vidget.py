@@ -5,7 +5,8 @@ from vidgear.gears import CamGear
 
 def vidget():
 	ytUrl = os.environ['ytUrl']
-	stream = CamGear(source=ytUrl, stream_mode =True,  time_delay=1, logging=True).start()
+	stream = CamGear(source=ytUrl, stream_mode=True, time_delay=1, logging=True,
+		**{"yt_dlp_options": {"cookiefile": "/secrets/yt-cookies.txt"}}).start()
 
 	path = "."
 
