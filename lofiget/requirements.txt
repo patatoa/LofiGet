@@ -1,6 +1,6 @@
 opencv-python-headless
 vidgear
-yt_dlp
+yt_dlp==2026.3.17
 google-cloud-storage
 google-cloud-firestore
 google-cloud-logging
