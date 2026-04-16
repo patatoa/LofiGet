@@ -1,15 +1,21 @@
 from datetime import datetime
 import cv2
 import os
+import shutil
+import tempfile
 import yt_dlp
 from vidgear.gears import CamGear
 
 def vidget():
 	ytUrl = os.environ['ytUrl']
+	# Copy read-only secret to a writable temp file so yt-dlp can update it
+	cookies_tmp = tempfile.mktemp(suffix='.txt')
+	shutil.copy('/secrets/yt-cookies.txt', cookies_tmp)
 	ydl_opts = {
-		'cookiefile': '/secrets/yt-cookies.txt',
+		'cookiefile': cookies_tmp,
 		'format': 'best[ext=mp4]/best',
 		'quiet': True,
+		'extractor_args': {'youtube': {'player_client': ['ios']}},
 	}
 	with yt_dlp.YoutubeDL(ydl_opts) as ydl:
 		info = ydl.extract_info(ytUrl, download=False)
