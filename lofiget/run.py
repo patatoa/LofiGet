@@ -12,7 +12,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 def saveToGCPBucket(path, bucketName) -> str:
     from google.cloud import storage
     storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucketName)
+    bucket = storage_client.bucket(bucketName)
     blob = bucket.blob(os.path.basename(path))
     blob.upload_from_filename(path)
     return blob.public_url
