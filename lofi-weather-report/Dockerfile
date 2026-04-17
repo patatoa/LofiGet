@@ -1,5 +1,5 @@
 # Use Node.js as the base image
-FROM node:14.15.0-alpine3.12
+FROM node:20-alpine AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Start a new stage to minimize the final image size
-FROM node:14.15.0-alpine3.12
+FROM node:20-alpine
 
 # Set the working directory
 WORKDIR /app

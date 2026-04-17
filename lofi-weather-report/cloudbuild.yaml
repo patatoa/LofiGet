@@ -1,0 +1,25 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "us.gcr.io/$PROJECT_ID/$PROJECT_ID/lofi-weather-report-ui:$COMMIT_SHA", "./lofi-weather-report"]
+    env:
+      - "PROJECT_ID=lofiget"
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "us.gcr.io/$PROJECT_ID/$PROJECT_ID/lofi-weather-report-ui:$COMMIT_SHA"]
+    env:
+      - "PROJECT_ID=lofiget"
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["tag", "us.gcr.io/$PROJECT_ID/$PROJECT_ID/lofi-weather-report-ui:$COMMIT_SHA", "us.gcr.io/$PROJECT_ID/$PROJECT_ID/lofi-weather-report-ui:latest"]
+    env:
+      - "PROJECT_ID=lofiget"
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "us.gcr.io/$PROJECT_ID/$PROJECT_ID/lofi-weather-report-ui:latest"]
+    env:
+      - "PROJECT_ID=lofiget"
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["run", "deploy", "lofi-weather-report-ui", "--image", "us.gcr.io/$PROJECT_ID/$PROJECT_ID/lofi-weather-report-ui:$COMMIT_SHA", "--platform", "managed", "--region", "us-central1"]
+    env:
+      - "PROJECT_ID=lofiget"

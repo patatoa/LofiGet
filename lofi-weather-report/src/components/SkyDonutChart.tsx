@@ -23,8 +23,6 @@ export default function SkyDonutChart({ dayPercent, nightPercent }: Props) {
           innerRadius={55}
           outerRadius={85}
           dataKey="value"
-          label={({ name, value }) => `${name} ${value}%`}
-          labelLine={false}
         />
         <Tooltip formatter={(v) => `${v}%`} />
       </PieChart>
